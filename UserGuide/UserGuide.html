@@ -1,0 +1,311 @@
+<html>
+<head>
+<title>IczDump User Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</head>
+
+<body bgcolor="#FFFFFF">
+<h1 align="center"><font face="Tahoma">IczDump 1.0 User Guide</font></h1>
+<table border="1" cellpadding="3" align="center">
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Program Name</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">IczDump</font></td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Author</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">Iczelion</font></td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Coded in</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">32-bit assembly 
+      language</font></td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Email</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">Iczelion@galaxycorp.com</font></td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Web page</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"> 
+      <p><font face="MS Sans Serif" size="-1">http://win32asm.cjb.net<br>
+        http://www.win32asm.com<br>
+        http://www.win32asm.net<br>
+        http://203.157.250.93/win32asm </font></p>
+    </td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC"> 
+      <div align="right"><font face="MS Sans Serif" size="-1">Copyright notice</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">This program is 
+      a copyrighted freeware. You're free to use it in anyway you like: I cannot 
+      guarantee that it's bug-free. Any damage occurred directly or indirectly 
+      from the use of this utility is your own responsibility. <br>
+      You can't sell this program for profit: I intend this utility to be a freeware 
+      and it will always be one.</font></td>
+  </tr>
+  <tr> 
+    <th bgcolor="#FFFFCC">
+      <div align="right"><font face="MS Sans Serif" size="-1">Greets (in no particular 
+        order)</font></div>
+    </th>
+    <td bgcolor="#CCFFCC"><font face="MS Sans Serif" size="-1">hutch--, ytc, __Ice, 
+      TTom, CRowmAN, TheSmurf, Secret, Z-Wing, RevSlim, cTT, masta, n0tty, LLama, 
+      mcp, virogen, rudeboy, The_Q, Einride, X-Calibre, X-Logic, the_owl, stone, 
+      _iceman__,Kanobi, Ates, baneoldman, fresh, josephCo, Bisoux, WarezPup, immoral, 
+      justarius,i_magnus, plushmm, ultraschall, all in #win32asm and #cracking4newbies</font></td>
+  </tr>
+</table>
+<p align="left"><font face="MS Sans Serif" size="-1">IczDump (Iczelion's PE Dumper) 
+  is yet another in-memory Portable Executable File dumper. However, it's different 
+  in subtle ways from other dumpers: it runs in the same process as the target 
+  because it's a DLL. Once the DLL is in a process, it has the same privilege 
+  as the the target. It can:</font></p>
+<ul>
+  <li><font face="MS Sans Serif" size="-1">dump file structures: DOS &amp; PE 
+    headers, sections, resources</font></li>
+  <li><font face="MS Sans Serif" size="-1">do custom dump: let you specify the 
+    address range you want to dump</font></li>
+  <li><font face="MS Sans Serif" size="-1">suspend-resume primary thread of the 
+    process</font></li>
+  <li><font face="MS Sans Serif" size="-1">edit the in-memory PE structures</font></li>
+  <li><font face="MS Sans Serif" size="-1">reload PE headers from the target</font></li>
+  <li><font face="MS Sans Serif" size="-1">display module list: list all modules 
+    in the process. You can load/unload modules.</font></li>
+  <li><font face="MS Sans Serif" size="-1">select target module to examine,dump 
+    via the module list</font></li>
+  <li><font face="MS Sans Serif" size="-1">search the target for import table 
+    </font></li>
+  <li><font face="MS Sans Serif" size="-1">search the target for thunk dwords 
+    (import function addresses)</font></li>
+  <li><font face="MS Sans Serif" size="-1">do Import Address Table (IAT) query</font></li>
+</ul>
+<p><font face="MS Sans Serif" size="-1">Furthermore, it's difficult to detect 
+  because it doesn't use win32 debug api or any ring-0 tracer. Just about the 
+  only way it can be detected is for the target to scan the whole process for 
+  it and if that occurs, we can find ways of avoiding the detection.</font></p>
+<h3><font face="Tahoma">What is included in the package?</font></h3>
+<ul>
+  <li><font face="MS Sans Serif" size="-1"><b><font color="#660066">IczLoader.exe</font></b> 
+    : the loader for Iczdump.dll</font></li>
+  <li><font face="MS Sans Serif" size="-1"><b><font color="#660066">IczDump.dll</font></b> 
+    ; the main IczDump module</font></li>
+  <li><font face="MS Sans Serif" size="-1"><b><font color="#660066">UserGuide.html 
+    </font></b>: this user guide</font></li>
+</ul>
+<h3><font face="Tahoma">How to use IczDump</font></h3>
+<ol>
+  <li><font face="MS Sans Serif" size="-1">Put IczDump.dll in the same folder 
+    as the target app. This step is necessary so that the target app will be able 
+    to find/load IczDump.dll with it.</font></li>
+  <li><font face="MS Sans Serif" size="-1"> </font><font face="MS Sans Serif" size="-1">Run 
+    IczLoader.dll. You'll be presented with an open file dialog box. Select the 
+    app you want to attach IczDump to and press Ok. If all goes well, the app 
+    will run and IczDump.dll will be loaded into its process. When IczDump loads, 
+    you will notice a blue tray icon in your system tray like this.<br>
+    </font><font face="MS Sans Serif" size="-1"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="trayicon.gif" width="18" height="17" align="absmiddle"></font></li>
+  <li><font face="MS Sans Serif" size="-1"> You can view the main window of IczDump 
+    by double-clicking the tray icon<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </font><img src="MainWindow.gif" width="242" height="41"><br>
+    <font face="MS Sans Serif" size="-1">The title bar displays the currently 
+    selected module. The default is the main application module but you can change 
+    to other modules in the process later</font></li>
+</ol>
+<h3><font face="Tahoma">Main</font></h3>
+<p><img src="MainMenu.gif" width="139" height="94"></p>
+<ul>
+  <li><font face="MS Sans Serif" size="-1"><b>Suspend-Resume Main Thread</b><br>
+    This feature lets you suspend-resume the primary thread of the process. It 
+    will be useful during the PE structure edit of the main app. Note that it 
+    doesn't include the other threads in the process. If necessary, this feature 
+    may be added in the future updates.</font></li>
+  <li><font face="MS Sans Serif" size="-1"><b>Module List</b></font><br>
+  </li>
+</ul>
+<div align="center"> 
+  <p align="center"><img src="ModuleList.gif" width="464" height="271"> </p>
+  <p align="left"><font face="MS Sans Serif" size="-1">Display all modules in 
+    the process, starting from 4MB to 3GB address space. It displays the base 
+    addresses and the path of the modules. You can do several things with this 
+    list.</font></p>
+</div>
+<ul>
+  <ul>
+    <li><font face="MS Sans Serif" size="-1">You can change the target module 
+      by selecting a module in the list and press &quot;Select&quot; button. IczDump 
+      will use the specified module as its default target during editing/dumping 
+      sessions. For example, if you select shell32.dll, when you dump PE header 
+      later, IczDump will dump the PE header of shell32.dll. You can check what 
+      module is currently selected by looking at the title bar of the main window.</font></li>
+    <li><font face="MS Sans Serif" size="-1">You can unload a module from the 
+      process. Coupled with &quot;Load DLL&quot; feature, you can load/unload 
+      additional DLLs (your own,perhaps) into the process. Note that under Win9x, 
+      you can unload any module in the process but under NT (and Windows 2000 
+      too, perhaps), it sometimes doesn't work out as intended: you can unload 
+      any DLL that IczDump loaded, but as to other DLLs, some may refuse to unload 
+      even if FreeLibrary returns true.</font></li>
+    <li><font face="MS Sans Serif" size="-1">You can refresh the module list to 
+      reflect the current module list. </font></li>
+  </ul>
+  <li><font face="MS Sans Serif" size="-1"><b>Reload Headers</b><br>
+    This feature allows you to load a fresh copy of PE header from the target 
+    file to replace the one in memory. Some PE encrypters such as PEShield destroy 
+    the DOS/PE headers after they successfully decrypt the app. IczDump requires 
+    some important values from the PE header for use with some operations, for 
+    example, the automatic import table search which needs the image size to limit 
+    the search scope. In that case, you should use this feature before doing such 
+    operations. </font></li>
+  <li><b><font face="MS Sans Serif" size="-1">Exit</font></b><br>
+    <font face="MS Sans Serif" size="-1">Unload IczDump from the process. You 
+    must use this menu item because clicking on the close button on the main window 
+    only minimizes IczDump to system tray.</font></li>
+</ul>
+<h3><font face="Tahoma">Display</font></h3>
+<img src="Display.gif" width="100" height="68" align="left" hspace="10"><font face="MS Sans Serif" size="-1">This 
+menu is actually one for PE structure editing features. Note that this only affects 
+the memory image of the module: it doesn't modify the disk file. This feature 
+is handy because you can modify the values and actually test their validity before 
+dumping them to disk files.</font>
+<p>&nbsp;</p>
+<ul>
+  <li> <font face="MS Sans Serif" size="-1"><b>PE Header</b></font></li>
+</ul>
+<p align="center"><img src="PEHdr.gif" width="281" height="128"> </p>
+<blockquote> 
+  <p><font face="MS Sans Serif" size="-1">You can modify the PE header signature 
+    in this screen. There are two buttons you can press to see further information: 
+    FileHeader and OptionalHeader.</font></p>
+</blockquote>
+<ul>
+  <li><font face="MS Sans Serif" size="-1"><b>FileHeader</b><br>
+    Display the values in IMAGE_FILE_HEADER structure portion of the PE header. 
+    You can modify the values and then press Save button.</font></li>
+  <li><font face="MS Sans Serif" size="-1"><b>OptionalHeader</b><br>
+    <img src="OptionalHdr.gif" width="519" height="401"> <br>
+    Same as FileHeader, you can modify the values to your heart's content and 
+    then save them by pressing Save button. If you want to view/modify the data 
+    directory, press the Data Directories button.<br>
+    </font></li>
+  <li><font face="MS Sans Serif" size="-1"><b>Section Table</b><br>
+    <img src="SectionTbl.gif" width="372" height="185"> <br>
+    Display the section information in the module. You can select the section 
+    to edit/view from the dropdown combobox.</font></li>
+  <li><font face="MS Sans Serif" size="-1"><b>Import</b><br>
+    </font><img src="Import.gif" width="284" height="206"> <br>
+    <font face="MS Sans Serif" size="-1">Display import table. Each tab represents 
+    an IMAGE_IMPORT_DESCRIPTOR structure in the import table. You can press Thunk 
+    Info button to view the thunk dwords.<br>
+    <img src="Thunk.gif" width="389" height="185"> <br>
+    The thunk Information window shows the virtual addresses of the functions 
+    and their names/modules. Note that IczDump obtains these information without 
+    relying on information from the import table itself. Thus this feature will 
+    still be operational even if the OriginalThunkDword and the Module Name are 
+    destroyed.<br>
+    You can modify the addresses of the thunk dwords by clicking on the addresses. 
+    After you're finished, press Enter to save the change.</font></li>
+  <li><b><font face="MS Sans Serif" size="-1">Export</font></b><font face="MS Sans Serif" size="-1"><br>
+    <img src="Export.gif" width="227" height="271" hspace="10"><br>
+    </font><font face="MS Sans Serif" size="-1">Display export information in 
+    the module. I haven't invested much attention here. As before, the values 
+    in this window can be modified as you like. </font></li>
+</ul>
+<h3><font face="Tahoma">Dump</font></h3>
+<h3><img src="Dump.gif" width="100" height="111"></h3>
+<p><font face="MS Sans Serif" size="-1">You can dump DOS header, PE header and 
+  section table to disk. IczDump uses the values in file header to determine the 
+  starting/ending addresses to dump. If the headers were destroyed, you must reload 
+  the headers before dumping.</font></p>
+<ul>
+  <li><b><font face="MS Sans Serif" size="-1">Section</font></b><font face="MS Sans Serif" size="-1"><br>
+    <img src="SectionDump.gif" width="458" height="178"> <br>
+    </font><font face="MS Sans Serif" size="-1">Double-click on the name of the 
+    section you want to dump. A save file dialog box will appear.</font></li>
+  <li><b><font face="MS Sans Serif" size="-1">Resource</font></b><br>
+    <img src="Resource.gif" width="215" height="219"> <br>
+    <font face="MS Sans Serif" size="-1">The available resources in the module 
+    is displayed in the above treeview control. You can download the resource 
+    by double-clicking the resource language you want.</font></li>
+  <li><b><font face="MS Sans Serif" size="-1">Custom Dump</font></b><font face="MS Sans Serif" size="-1"><br>
+    <img src="CustomDump.gif" width="228" height="123"> <br>
+    you can choose the address range you want to dump. Put in the desired virtual 
+    addresses in the edit controls and press Dump button.</font></li>
+</ul>
+<h3><font face="Tahoma">Advance</font></h3>
+<h3><img src="Advance.gif" width="140" height="51" border="0"></h3>
+<ul>
+  <li> <b><font face="MS Sans Serif" size="-1">Import Query</font></b><font face="MS Sans Serif" size="-1"><br>
+    </font><img src="ImportQuery.gif" width="119" height="34"> 
+    <ul>
+      <li><font face="MS Sans Serif" size="-1"><b>Query IAT Chain</b>. </font> 
+        <p><img src="IATChain.gif" width="302" height="212" align="left"><font face="MS Sans Serif" size="-1">his 
+          feature is useful when the import table is completely destroyed: not 
+          even FirstThunk/OriginalFirstThunk values remain. In that case, if you 
+          find an array of dwords which you suspect it is a thunk dword chain, 
+          you can type the address of the dword array into the edit box and then 
+          press Query button.</font><br>
+          <font face="MS Sans Serif" size="-1">IczDump will try to validate the 
+          dwords and if they are valid, the name of the functions, their addresses 
+          and ordinals are displayed in the listview control below. Thus it'll 
+          be easier to reconstruct the import table.</font></p>
+      </li>
+    </ul>
+    <blockquote> 
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </blockquote>
+    <ul>
+      <li><font face="MS Sans Serif" size="-1"><b>Specific IAT Query</b>. <br>
+        <img src="IATDword.gif" width="275" height="155" align="left"> </font></li>
+    </ul>
+  </li>
+</ul>
+<p><font face="MS Sans Serif" size="-1">This feature is more fine-grained than 
+  the IAT chain query. You can put in the value of the dword you suspect that 
+  it's an import function address and IczDump will try to resolve the address 
+  to module/function name.</font></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ul>
+  <li><b><font face="MS Sans Serif" size="-1">Locate Import Table</font></b><font face="MS Sans Serif" size="-1"><br>
+    <img src="LocateImport.gif" width="171" height="220" align="left"> <br>
+    </font><font face="MS Sans Serif" size="-1">This feature is useful in the 
+    situation when the import RVA in the data directory was destroyed but the 
+    import table itself is at least partially intact. By the word &quot;partially 
+    intanct&quot;, I mean that at least the FirstThunk member of the IMAGE_IMPORT_DESCRIPTOR 
+    structure must still contain valid values. And the array of IMAGE_IMPORT_DESCRIPTOR 
+    structures must be terminated by an empty entry.<br>
+    Iczdump will search the whole module for possible candidates. Since this method 
+    is not wholely reliable, you must give its a hand. IczDump will show the possible 
+    candidates only. You can test their validity by select one of the candidates 
+    and press Set button. This action tells IczDump to put the selected value 
+    into the Import RVA member of the data directory array. You can then select 
+    Display -&gt; Import to check the selected candidate if it's the true import 
+    table. </font></li>
+</ul>
+<p>&nbsp;</p>
+<ul>
+  <li><font face="MS Sans Serif" size="-1">Locate Thunk Dwords<br>
+    <img src="ThunkDword.gif" width="305" height="165" align="left"> </font></li>
+</ul>
+<p><font face="MS Sans Serif" size="-1">IczDump can search the whole module for 
+  dwords which match the addresses of functions exported by the modules in the 
+  process. It displays the full list in the listbox. You can obtain more information 
+  by select an entry in the listbox. The module/function name will be displayed.</font> 
+</p>
+<p>&nbsp;</p>
+<p><font face="MS Sans Serif" size="-1">Finally, you can report bugs to me,<a href="mailto:Iczelion@galaxycorp.com"> 
+  Iczelion@galaxycorp.com</a>. Your input is important for the future development 
+  of this freeware utility.</font></p>
+</body>
+</html>
